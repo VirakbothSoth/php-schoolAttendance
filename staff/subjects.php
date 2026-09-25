@@ -63,38 +63,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     : 'The subject could not be added.';
             }
         }
-    } elseif ($action === 'update_score') {
-        $student_id = filter_var($_POST['student_id'] ?? null, FILTER_VALIDATE_INT);
+    } elseif ($action === 'update_scores') {
         $subject_id = filter_var($_POST['subject_id'] ?? null, FILTER_VALIDATE_INT);
-        $score = trim($_POST['score'] ?? '');
+        $scores = $_POST['scores'] ?? [];
 
-        if (!$student_id || !$subject_id || !is_valid_score($score)) {
-            $error_message = 'Enter a valid student score.';
+        $limit_statement = mysqli_prepare($link, 'select max_score from subjects where id = ?');
+        mysqli_stmt_bind_param($limit_statement, 'i', $subject_id);
+        mysqli_stmt_execute($limit_statement);
+        $subject_limit = mysqli_fetch_assoc(mysqli_stmt_get_result($limit_statement));
+        mysqli_stmt_close($limit_statement);
+
+        if (!$subject_id || !$subject_limit || !is_array($scores)) {
+            $error_message = 'Enter valid student scores.';
         } else {
-            $limit_statement = mysqli_prepare(
+            $update_statement = mysqli_prepare(
                 $link,
-                'select s.max_score from subjects s join users u on u.id = ? and u.role = \'student\' where s.id = ?'
+                'update student_subject_scores set score = ? where student_id = ? and subject_id = ?'
             );
-            mysqli_stmt_bind_param($limit_statement, 'ii', $student_id, $subject_id);
-            mysqli_stmt_execute($limit_statement);
-            $subject_limit = mysqli_fetch_assoc(mysqli_stmt_get_result($limit_statement));
-            mysqli_stmt_close($limit_statement);
+            $all_saved = true;
 
-            if (!$subject_limit || (float) $score > (float) $subject_limit['max_score']) {
-                $error_message = 'The score must be between 0 and the subject maximum.';
-            } else {
-                $update_statement = mysqli_prepare(
-                    $link,
-                    'update student_subject_scores set score = ? where student_id = ? and subject_id = ?'
-                );
-                mysqli_stmt_bind_param($update_statement, 'sii', $score, $student_id, $subject_id);
-                if (mysqli_stmt_execute($update_statement) && mysqli_stmt_affected_rows($update_statement) >= 0) {
-                    $success_message = 'Student score updated.';
-                } else {
-                    $error_message = 'The score could not be updated.';
+            foreach ($scores as $student_id => $score) {
+                $student_id = filter_var($student_id, FILTER_VALIDATE_INT);
+                $score = trim($score);
+
+                if (!$student_id || !is_valid_score($score) || (float) $score > (float) $subject_limit['max_score']) {
+                    $all_saved = false;
+                    continue;
                 }
-                mysqli_stmt_close($update_statement);
+
+                mysqli_stmt_bind_param($update_statement, 'sii', $score, $student_id, $subject_id);
+                if (!mysqli_stmt_execute($update_statement)) {
+                    $all_saved = false;
+                }
             }
+            mysqli_stmt_close($update_statement);
+
+            $success_message = $all_saved ? 'Scores updated.' : '';
+            $error_message = $all_saved ? '' : 'One or more scores were invalid and were not saved.';
         }
     }
 }
@@ -182,37 +187,36 @@ require __DIR__ . '/../header.php';
                     · Max <?= escape_html((string) $subject['max_score']) ?>
                 </span>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
-                        <tr>
-                            <th class="px-5 py-3 font-semibold">Student</th>
-                            <th class="px-5 py-3 font-semibold">Score</th>
-                            <th class="px-5 py-3 font-semibold">Update score</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200">
-                        <?php if (mysqli_num_rows($student_scores) === 0): ?>
+            <form method="post">
+                <input type="hidden" name="action" value="update_scores">
+                <input type="hidden" name="subject_id" value="<?= (int) $subject['id'] ?>">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
                             <tr>
-                                <td colspan="3" class="px-5 py-4 text-slate-500">No students yet.</td>
+                                <th class="px-5 py-3 font-semibold">Student</th>
+                                <th class="px-5 py-3 font-semibold">Score</th>
+                                <th class="px-5 py-3 font-semibold">Update score</th>
                             </tr>
-                        <?php else: ?>
-                            <?php while ($student = mysqli_fetch_assoc($student_scores)): ?>
-                                <tr class="odd:bg-white even:bg-slate-50">
-                                    <td class="px-5 py-3"><?= escape_html($student['full_name']) ?></td>
-                                    <td class="px-5 py-3">
-                                        <?= escape_html((string) $student['score']) ?>
-                                        / <?= escape_html((string) $subject['max_score']) ?>
-                                    </td>
-                                    <td class="px-5 py-3">
-                                        <form method="post" class="flex min-w-56 gap-2">
-                                            <input type="hidden" name="action" value="update_score">
-                                            <input type="hidden" name="student_id" value="<?= (int) $student['id'] ?>">
-                                            <input type="hidden" name="subject_id" value="<?= (int) $subject['id'] ?>">
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <?php if (mysqli_num_rows($student_scores) === 0): ?>
+                                <tr>
+                                    <td colspan="3" class="px-5 py-4 text-slate-500">No students yet.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php while ($student = mysqli_fetch_assoc($student_scores)): ?>
+                                    <tr class="odd:bg-white even:bg-slate-50">
+                                        <td class="px-5 py-3"><?= escape_html($student['full_name']) ?></td>
+                                        <td class="px-5 py-3">
+                                            <?= escape_html((string) $student['score']) ?>
+                                            / <?= escape_html((string) $subject['max_score']) ?>
+                                        </td>
+                                        <td class="px-5 py-3">
                                             <input
-                                                class="min-w-0 flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                                                class="min-w-0 w-full max-w-40 rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                                                 type="number"
-                                                name="score"
+                                                name="scores[<?= (int) $student['id'] ?>]"
                                                 value="<?= escape_html((string) $student['score']) ?>"
                                                 min="0"
                                                 max="<?= escape_html((string) $subject['max_score']) ?>"
@@ -220,15 +224,17 @@ require __DIR__ . '/../header.php';
                                                 aria-label="Score for <?= escape_html($student['full_name']) ?>"
                                                 required
                                             >
-                                            <button class="rounded-md border border-blue-800 px-3 py-2 text-sm font-medium text-blue-900 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600" type="submit">Save</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-end border-t border-slate-200 px-5 py-3">
+                    <button class="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-500 border-2 border-sky-500  hover:bg-grey-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Save</button>
+                </div>
+            </form>
         </section>
         <?php mysqli_stmt_close($score_statement); ?>
     <?php endwhile; ?>
