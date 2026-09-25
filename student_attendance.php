@@ -46,9 +46,9 @@ require __DIR__ . '/header.php';
         <h1 class="mb-1 text-2xl font-semibold tracking-tight text-slate-900">Attendance history</h1>
         <p class="text-sm text-slate-600">Review your attendance by month.</p>
     </div>
-    <a class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-600" href="student.php">Back to overview</a>
+    <a class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700   hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-600" href="student.php">Back to overview</a>
 </div>
-<section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm" aria-labelledby="attendance-heading">
+<section class="overflow-hidden rounded-xl border border-slate-200 bg-white  " aria-labelledby="attendance-heading">
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
         <div>
             <h2 class="text-lg font-semibold text-slate-900" id="attendance-heading"><?= escape_html($month_start->format('Y')) ?></h2>
@@ -57,14 +57,14 @@ require __DIR__ . '/header.php';
         <form method="get" class="flex flex-wrap items-center gap-2">
             <label for="month" class="text-sm font-medium text-slate-700">Month</label>
             <input
-                class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 type="month"
                 id="month"
                 name="month"
                 value="<?= escape_html($month_start->format('Y-m')) ?>"
                 required
             >
-            <button class="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">View</button>
+            <button class="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white   hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">View</button>
         </form>
     </div>
     <div class="overflow-x-auto">

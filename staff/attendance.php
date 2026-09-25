@@ -84,7 +84,7 @@
 <form method="get" class="mb-5 flex flex-wrap items-end gap-3">
     <div>
         <label class="mb-1 block text-sm font-medium text-slate-700" for="date">Select date</label>
-        <input class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" type="date" id="date" name="date" value="<?= escape_html($selected_date) ?>" required>
+        <input class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" type="date" id="date" name="date" value="<?= escape_html($selected_date) ?>" required>
     </div>
     <div>
         <button class="rounded-md border border-blue-800 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600" type="submit">Load date</button>
@@ -93,7 +93,7 @@
 
 <form method="post">
     <input type="hidden" name="attendance_date" value="<?= escape_html($selected_date) ?>">
-    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white  ">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
                 <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
@@ -111,7 +111,7 @@
                         <tr class="odd:bg-white even:bg-slate-50">
                             <td class="px-5 py-3"><?= escape_html($student['full_name']) ?></td>
                             <td class="px-5 py-3">
-                                <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" name="status[<?= (int) $student['id'] ?>]" required>
+                                <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" name="status[<?= (int) $student['id'] ?>]" required>
                                 <option value="attended" <?= $student['status'] === 'attended' ? 'selected' : '' ?>>
                                     Attended
                                 </option>
@@ -126,7 +126,7 @@
         </div>
     </div>
     <?php if (mysqli_num_rows($students) > 0): ?>
-        <button class="mt-4 rounded-md bg-blue-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Save attendance</button>
+        <button class="mt-4 rounded-md bg-blue-800 px-4 py-2 text-sm font-semibold text-white   hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Save attendance</button>
     <?php endif; ?>
 </form>
 

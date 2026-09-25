@@ -129,7 +129,7 @@ $subject_scores = mysqli_stmt_get_result($score_statement);
 $page_title = 'My attendance';
 require __DIR__ . '/header.php';
 ?>
-<div class="animate-rise-in relative isolate mb-6 overflow-hidden rounded-2xl border border-blue-900 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900 px-6 py-8 text-white shadow-xl sm:px-9 sm:py-10">
+<div class="relative isolate mb-6 overflow-hidden rounded-2xl border border-blue-900 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900 px-6 py-8 text-white shadow-xl sm:px-9 sm:py-10">
     <div class="hero-glow hero-glow-blue" aria-hidden="true"></div>
     <div class="hero-glow hero-glow-violet" aria-hidden="true"></div>
     <div class="relative z-10">
@@ -150,7 +150,7 @@ require __DIR__ . '/header.php';
             id="range"
             name="range"
             onchange="this.form.submit()"
-            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         >
             <option value="weekly"<?= $selected_range === 'weekly' ? ' selected' : '' ?>>Weekly</option>
             <option value="monthly"<?= $selected_range === 'monthly' ? ' selected' : '' ?>>Monthly</option>
@@ -160,29 +160,29 @@ require __DIR__ . '/header.php';
     </form>
 </div>
 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-    <div class="animate-rise-in animation-delay-100 h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="h-full rounded-xl border border-slate-200 bg-white p-5  ">
         <div class="text-sm font-medium text-slate-600">Attendance points</div>
         <div class="mt-2 text-3xl font-semibold text-blue-900"><?= (int) $range_attendance_counts['attended'] ?></div>
         <p class="mt-1 text-xs text-slate-500"><?= escape_html($points_subtitle) ?></p>
     </div>
-    <div class="animate-rise-in animation-delay-200 h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="h-full rounded-xl border border-slate-200 bg-white p-5  ">
         <div class="text-sm font-medium text-slate-600"><?= escape_html($attended_title) ?></div>
         <div class="mt-2 text-3xl font-semibold text-emerald-700"><?= (int) $range_attendance_counts['attended'] ?></div>
         <p class="mt-1 text-xs text-slate-500">Days marked attended</p>
     </div>
-    <div class="animate-rise-in animation-delay-300 h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="h-full rounded-xl border border-slate-200 bg-white p-5  ">
         <div class="text-sm font-medium text-slate-600"><?= escape_html($absent_title) ?></div>
         <div class="mt-2 text-3xl font-semibold text-rose-700"><?= (int) $range_attendance_counts['absent'] ?></div>
         <p class="mt-1 text-xs text-slate-500">Days marked absent</p>
     </div>
 </div>
-<section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm" aria-labelledby="calendar-heading">
+<section class="overflow-hidden rounded-xl border border-slate-200 bg-white  " aria-labelledby="calendar-heading">
     <div class="p-5">
         <div class="mb-4 flex items-center justify-between">
             <h2 class="text-lg font-semibold text-slate-900" id="calendar-heading">
                 <?= escape_html($month_start->format('F Y')) ?>
             </h2>
-            <div class="flex overflow-hidden rounded-md border border-slate-300 shadow-sm" aria-label="Calendar month navigation">
+            <div class="flex overflow-hidden rounded-md border border-slate-300  " aria-label="Calendar month navigation">
                 <a
                     class="px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     href="?month=<?= escape_html($previous_month) ?>&amp;range=<?= escape_html($selected_range) ?>"
@@ -234,7 +234,7 @@ require __DIR__ . '/header.php';
 </section>
 </div>
 <aside class="lg:col-span-3">
-    <section class="h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm" aria-labelledby="recent-attendance-heading">
+    <section class="h-full rounded-xl border border-slate-200 bg-white p-5  " aria-labelledby="recent-attendance-heading">
         <div class="mb-3 flex items-center justify-between gap-2">
             <h2 class="text-sm font-semibold text-slate-800" id="recent-attendance-heading">Recent attendance</h2>
             <a class="whitespace-nowrap text-xs font-medium text-blue-800 hover:text-blue-950" href="student_attendance.php">View all</a>
@@ -258,7 +258,7 @@ require __DIR__ . '/header.php';
     </section>
 </aside>
 </div>
-<div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+<div class="overflow-hidden rounded-xl border border-slate-200 bg-white  ">
     <div class="border-b border-slate-200 px-5 py-4 font-semibold text-slate-900">My subjects</div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">

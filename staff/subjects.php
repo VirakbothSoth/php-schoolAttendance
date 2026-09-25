@@ -124,18 +124,18 @@ require __DIR__ . '/../header.php';
     <div class="mb-4 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800" role="alert"><?= escape_html($error_message) ?></div>
 <?php endif; ?>
 
-<div class="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="mb-6 rounded-xl border border-slate-200 bg-white p-5">
         <h2 class="mb-4 text-lg font-semibold text-slate-900">Add a subject</h2>
         <form method="post" class="grid items-end gap-4 md:grid-cols-2 xl:grid-cols-4">
             <input type="hidden" name="action" value="create_subject">
             <div>
                 <label class="mb-1 block text-sm font-medium text-slate-700" for="name">Subject name</label>
-                <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="name" name="name" maxlength="120" required>
+                <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="name" name="name" maxlength="120" required>
             </div>
             <div>
                 <label class="mb-1 block text-sm font-medium text-slate-700" for="default_score">Default score</label>
                 <input
-                    class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                    class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                     type="number"
                     id="default_score"
                     name="default_score"
@@ -148,7 +148,7 @@ require __DIR__ . '/../header.php';
             <div>
                 <label class="mb-1 block text-sm font-medium text-slate-700" for="max_score">Maximum score</label>
                 <input
-                    class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                    class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                     type="number"
                     id="max_score"
                     name="max_score"
@@ -165,7 +165,7 @@ require __DIR__ . '/../header.php';
 </div>
 
 <?php if (mysqli_num_rows($subjects) === 0): ?>
-    <div class="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-500 shadow-sm">No subjects have been added yet.</div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-500  ">No subjects have been added yet.</div>
 <?php else: ?>
     <?php while ($subject = mysqli_fetch_assoc($subjects)): ?>
         <?php
@@ -179,7 +179,7 @@ require __DIR__ . '/../header.php';
         mysqli_stmt_execute($score_statement);
         $student_scores = mysqli_stmt_get_result($score_statement);
         ?>
-        <section class="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm" aria-labelledby="subject-<?= (int) $subject['id'] ?>">
+        <section class="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white  " aria-labelledby="subject-<?= (int) $subject['id'] ?>">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-5 py-4">
                 <h2 class="text-lg font-semibold text-slate-900" id="subject-<?= (int) $subject['id'] ?>"><?= escape_html($subject['name']) ?></h2>
                 <span class="text-sm text-slate-500">
@@ -214,7 +214,7 @@ require __DIR__ . '/../header.php';
                                         </td>
                                         <td class="px-5 py-3">
                                             <input
-                                                class="min-w-0 w-full max-w-40 rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                                                class="min-w-0 w-full max-w-40 rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                                                 type="number"
                                                 name="scores[<?= (int) $student['id'] ?>]"
                                                 value="<?= escape_html((string) $student['score']) ?>"
@@ -232,7 +232,7 @@ require __DIR__ . '/../header.php';
                     </table>
                 </div>
                 <div class="flex justify-end border-t border-slate-200 px-5 py-3">
-                    <button class="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-500 border-2 border-sky-500  hover:bg-grey-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Save</button>
+                    <button class="rounded-md bg-blue-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Save</button>
                 </div>
             </form>
         </section>

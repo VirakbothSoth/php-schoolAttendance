@@ -61,22 +61,22 @@ require __DIR__ . '/../header.php';
     <div class="mb-4 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"><?= escape_html($error_message) ?></div>
 <?php endif; ?>
 <div class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div class="rounded-xl border border-slate-200 bg-white  ">
             <div class="p-5">
                 <h2 class="mb-4 text-lg font-semibold text-slate-900">Add student</h2>
                 <form method="post">
                     <div class="mb-4">
                         <label class="mb-1 block text-sm font-medium text-slate-700" for="full_name">Full name</label>
-                        <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="full_name" name="full_name" maxlength="120" required>
+                        <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="full_name" name="full_name" maxlength="120" required>
                     </div>
                     <div class="mb-4">
                         <label class="mb-1 block text-sm font-medium text-slate-700" for="username">Username</label>
-                        <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="username" name="username" maxlength="80" required>
+                        <input class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" id="username" name="username" maxlength="80" required>
                     </div>
                     <div class="mb-4">
-                        <label class="mb-1 block text-sm font-medium text-slate-700" for="password">Temporary password</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700" for="password">Password</label>
                         <input
-                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                             type="password"
                             id="password"
                             name="password"
@@ -88,7 +88,7 @@ require __DIR__ . '/../header.php';
                 </form>
             </div>
         </div>
-    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm lg:col-span-2">
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white   lg:col-span-2">
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
                     <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">

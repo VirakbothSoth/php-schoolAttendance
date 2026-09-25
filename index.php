@@ -85,7 +85,7 @@ require __DIR__ . '/header.php';
                     <div class="mb-4">
                         <label class="mb-1 block text-sm font-medium text-slate-700" for="username">Username</label>
                         <input
-                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                             id="username"
                             name="username"
                             required
@@ -96,7 +96,7 @@ require __DIR__ . '/header.php';
                     <div>
                         <label class="mb-1 block text-sm font-medium text-slate-700" for="password">Password</label>
                         <input
-                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                             type="password"
                             id="password"
                             name="password"
@@ -104,7 +104,7 @@ require __DIR__ . '/header.php';
                             autocomplete="current-password"
                         >
                     </div>
-                    <button class="w-full rounded-md bg-blue-800 px-4 py-2.5 my-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Sign in</button>
+                    <button class="w-full rounded-md bg-blue-800 px-4 py-2.5 my-4 text-sm font-semibold text-white   hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">Sign in</button>
                     <p class="text-neutral-400">Can't log in? Check your password, or you need to wait for a staff to register your account!</p>
                 </form>
         </div>
