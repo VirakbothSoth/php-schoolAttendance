@@ -20,14 +20,18 @@ Hello! this is what we submitted for our final exam, a simple system that helps 
 
 ## How to run
 (This is based on using XAMPP control panel)
+
 **You must have a mySQL server**
+
 **Creation of database and seeding data is found at 127_0_0_1.sql**
 
-1. Clone the repository to where you want it to be (for example, I'm gonna clone mines at C:\xampp\htdocs\\ and call it "php-schoolAttendance")
+1. Clone the repository to where you want it to be 
+
+(for example, I'm gonna clone mines at `C:\xampp\htdocs\` and call it "`php-schoolAttendance`")
 
 2. Run the seeded data into your mySQL server
 
-3. Check the config.php file to make sure it matches your configuration 
+3. Check the `config.php` file to make sure it matches your configuration 
 
 4. Visit the link, here are some users you can use (must successfully finish Step 2):
 
