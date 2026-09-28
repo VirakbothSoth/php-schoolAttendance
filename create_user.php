@@ -9,16 +9,25 @@ $role = 'student';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $full_name = trim($_POST['full_name'] ?? '');
+    $full_name = preg_replace('/\s+/', ' ', $full_name);
+    
     $username = trim($_POST['username'] ?? '');
+    // Silently remove any spaces and control characters from username
+    $username = preg_replace('/[\s\x00-\x1F\x7F]+/', '', $username);
+
     $password = $_POST['password'] ?? '';
     $role = $_POST['role'] ?? '';
 
     if ($full_name === '' || strlen($full_name) > 120) {
         $error_message = 'Enter a name of up to 120 characters.';
+    } elseif (!preg_match('/^[\p{Latin}\s\-\']+$/u', $full_name)) {
+        $error_message = 'Name contains invalid characters.';
     } elseif ($username === '' || strlen($username) > 80) {
         $error_message = 'Enter a username of up to 80 characters.';
     } elseif (strlen($password) < 8) {
         $error_message = 'Password must be at least 8 characters.';
+    } elseif (preg_match('/[\x00-\x1F\x7F]/', $password)) {
+        $error_message = 'Password contains invalid characters.';
     } elseif (!in_array($role, ['student', 'staff'], true)) {
         $error_message = 'Choose a valid account role.';
     } else {
@@ -84,6 +93,7 @@ function escape_html(string $value): string
                 maxlength="80"
                 required
                 value="<?= escape_html($username) ?>"
+                oninput="this.value = this.value.replace(/\s+/g, '')"
             >
         </p>
         <p>

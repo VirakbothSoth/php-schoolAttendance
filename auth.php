@@ -6,7 +6,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 function require_role(string $role): void
 {
     if (empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== $role) {
-        header('Location: ' . app_base_path() . '/index.php');
+        header('Location: ' . app_base_path() . '/public/index.php');
         exit;
     }
 }
@@ -14,7 +14,8 @@ function require_role(string $role): void
 function app_base_path(): string
 {
     $script_directory = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
-    if (basename($script_directory) === 'staff') {
+    $folder_name = basename($script_directory);
+    if (in_array($folder_name, ['staff', 'student', 'public'], true)) {
         $script_directory = dirname($script_directory);
     }
 
