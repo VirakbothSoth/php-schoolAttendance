@@ -21,12 +21,21 @@ $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
         <div class="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-4 sm:px-6">
             <a
                 class="text-lg font-semibold tracking-tight"
-                href="<?= escape_html(app_base_path() . ($is_staff_page ? '/staff/students.php' : '/student.php')) ?>"
+                href="<?= escape_html(app_base_path() . ($is_staff_page ? '/staff/students.php' : '/student/overview.php')) ?>"
             >
                 School Attendance
             </a>
-            <?php if (!empty($_SESSION['user_id'])): ?>
-                <a class="rounded-md border border-white/60 px-3 py-1.5 text-sm font-medium text-white hover:bg-white hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-white/70" href="<?= escape_html(app_base_path()) ?>/logout.php">
+            <?php if (!empty($_SESSION['impersonator_staff_id'])): ?>
+                <div class="flex items-center gap-2.5">
+                    <span class="inline-flex items-center rounded-md bg-amber-400/20 px-2.5 py-1 text-xs font-semibold text-amber-200 border border-amber-400/30">
+                        Student Demo
+                    </span>
+                    <a class="rounded-md bg-amber-500 px-3 py-1.5 text-xs sm:text-sm font-semibold text-slate-950 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300 transition-colors shadow-xs" href="<?= escape_html(app_base_path()) ?>/public/exit_demo.php">
+                        Exit Demo
+                    </a>
+                </div>
+            <?php elseif (!empty($_SESSION['user_id'])): ?>
+                <a class="rounded-md border border-white/60 px-3 py-1.5 text-sm font-medium text-white hover:bg-white hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-white/70" href="<?= escape_html(app_base_path()) ?>/public/logout.php">
                     Sign out
                 </a>
             <?php endif; ?>
@@ -35,15 +44,15 @@ $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 <main class="flex-1">
     <div class="flex min-h-[calc(100vh-3.5rem)] w-full flex-col lg:flex-row">
         <?php if ($is_staff_page || $is_student_page): ?>
-            <aside class="bg-slate-200 px-4 py-3 lg:w-50 lg:shrink-0 lg:px-4 lg:py-6" aria-label="Main navigation">
+            <aside class="bg-white border border-slate-200 shadow-sm px-4 py-3 lg:w-50 lg:shrink-0 lg:px-4 lg:py-6" aria-label="Main navigation">
                     <nav class="flex flex-wrap gap-1 lg:flex-col">
                         <?php if ($is_staff_page): ?>
-                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-white/70 <?= $current_page === 'students.php' ? 'bg-white text-blue-900  ' : '' ?>" href="<?= escape_html(app_base_path()) ?>/staff/students.php"<?= $current_page === 'students.php' ? ' aria-current="page"' : '' ?>>Manage students</a>
-                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-white/70 <?= $current_page === 'attendance.php' ? 'bg-white text-blue-900  ' : '' ?>" href="<?= escape_html(app_base_path()) ?>/staff/attendance.php"<?= $current_page === 'attendance.php' ? ' aria-current="page"' : '' ?>>Attendance</a>
-                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-white/70 <?= $current_page === 'subjects.php' ? 'bg-white text-blue-900  ' : '' ?>" href="<?= escape_html(app_base_path()) ?>/staff/subjects.php"<?= $current_page === 'subjects.php' ? ' aria-current="page"' : '' ?>>Subjects</a>
+                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium transition-colors <?= $current_page === 'students.php' ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' ?>" href="<?= escape_html(app_base_path()) ?>/staff/students.php"<?= $current_page === 'students.php' ? ' aria-current="page"' : '' ?>>Manage students</a>
+                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium transition-colors <?= $current_page === 'attendance.php' ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' ?>" href="<?= escape_html(app_base_path()) ?>/staff/attendance.php"<?= $current_page === 'attendance.php' ? ' aria-current="page"' : '' ?>>Attendance</a>
+                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium transition-colors <?= $current_page === 'subjects.php' ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' ?>" href="<?= escape_html(app_base_path()) ?>/staff/subjects.php"<?= $current_page === 'subjects.php' ? ' aria-current="page"' : '' ?>>Subjects</a>
                         <?php else: ?>
-                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-white/70 <?= $current_page === 'student.php' ? 'bg-white text-blue-900  ' : '' ?>" href="<?= escape_html(app_base_path()) ?>/student.php"<?= $current_page === 'student.php' ? ' aria-current="page"' : '' ?>>Overview</a>
-                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-white/70 <?= $current_page === 'student_attendance.php' ? 'bg-white text-blue-900  ' : '' ?>" href="<?= escape_html(app_base_path()) ?>/student_attendance.php"<?= $current_page === 'student_attendance.php' ? ' aria-current="page"' : '' ?>>Attendance history</a>
+                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium transition-colors <?= ($current_page === 'overview.php' || $current_page === 'student.php') ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' ?>" href="<?= escape_html(app_base_path()) ?>/student/overview.php"<?= ($current_page === 'overview.php' || $current_page === 'student.php') ? ' aria-current="page"' : '' ?>>Overview</a>
+                            <a class="rounded-md px-3 py-2 text-left text-sm font-medium transition-colors <?= ($current_page === 'attendance.php' || $current_page === 'student_attendance.php') ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' ?>" href="<?= escape_html(app_base_path()) ?>/student/attendance.php"<?= ($current_page === 'attendance.php' || $current_page === 'student_attendance.php') ? ' aria-current="page"' : '' ?>>Attendance history</a>
                         <?php endif; ?>
                     </nav>
             </aside>
