@@ -72,7 +72,10 @@ function escape_html(string $value): string
         <p><?= escape_html($success_message) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="create_user.php">
+    <form method="post" action="create_user.php" autocomplete="off">
+        <!-- Hidden dummy inputs to prevent browser & password manager autofill -->
+        <input type="text" name="fake_username_remember" style="display:none" tabindex="-1" aria-hidden="true" autocomplete="off">
+        <input type="password" name="fake_password_remember" style="display:none" tabindex="-1" aria-hidden="true" autocomplete="off">
         <p>
             <label for="full_name">Full name</label><br>
             <input
@@ -82,6 +85,7 @@ function escape_html(string $value): string
                 maxlength="120"
                 required
                 value="<?= escape_html($full_name) ?>"
+                autocomplete="off"
             >
         </p>
         <p>
@@ -94,6 +98,7 @@ function escape_html(string $value): string
                 required
                 value="<?= escape_html($username) ?>"
                 oninput="this.value = this.value.replace(/\s+/g, '')"
+                autocomplete="new-password"
             >
         </p>
         <p>
