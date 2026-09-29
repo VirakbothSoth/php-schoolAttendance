@@ -38,60 +38,63 @@ while ($record = mysqli_fetch_assoc($record_result)) {
     $weeks[$week_key]['records'][] = $record;
 }
 
-$page_title = 'Attendance history';
+$page_title = 'Attendance History';
 require __DIR__ . '/../header.php';
 ?>
-<div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
     <div>
-        <h1 class="mb-1 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Attendance history</h1>
-        <p class="text-sm text-slate-600">Review your attendance by month.</p>
+        <h1 class="text-2xl font-bold text-slate-900">Attendance History</h1>
+        <p class="text-sm text-slate-500">Review your detailed monthly attendance records.</p>
     </div>
-    <a class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-600" href="overview.php">Back to overview</a>
+    <a class="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors" href="overview.php">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Overview</span>
+    </a>
 </div>
-<section class="overflow-hidden rounded-xl border border-slate-200 bg-white" aria-labelledby="attendance-heading">
-    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
+<section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs" aria-labelledby="attendance-heading">
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 bg-slate-50/70">
         <div>
-            <h2 class="text-lg font-semibold text-slate-900" id="attendance-heading"><?= escape_html($month_start->format('Y')) ?></h2>
-            <p class="text-sm text-slate-600"><?= escape_html($month_start->format('F')) ?> attendance</p>
+            <h2 class="text-base font-semibold text-slate-900" id="attendance-heading"><?= escape_html($month_start->format('F Y')) ?></h2>
+            <p class="text-xs text-slate-500">Monthly attendance summary</p>
         </div>
         <form method="get" class="flex flex-wrap items-center gap-2">
             <label for="month" class="text-sm font-medium text-slate-700">Month</label>
             <input
-                class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20 cursor-pointer"
                 type="month"
                 id="month"
                 name="month"
                 value="<?= escape_html($month_start->format('Y-m')) ?>"
+                onchange="this.form.submit()"
                 required
             >
-            <button class="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2" type="submit">View</button>
         </form>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
+            <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200">
                 <tr>
-                    <th class="px-5 py-3 font-semibold" scope="col">Date</th>
-                    <th class="px-5 py-3 font-semibold" scope="col">Status</th>
+                    <th class="px-5 py-3" scope="col">Date</th>
+                    <th class="px-5 py-3" scope="col">Status</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-200">
                 <?php if ($weeks === []): ?>
                     <tr>
-                        <td colspan="2" class="px-5 py-4 text-slate-500">
-                            No attendance or absence has been recorded for <?= escape_html($month_start->format('F Y')) ?>.
+                        <td colspan="2" class="px-5 py-8 text-center text-slate-500">
+                            No attendance or absence records found for <?= escape_html($month_start->format('F Y')) ?>.
                         </td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($weeks as $week): ?>
-                        <tr class="bg-slate-100">
-                            <th colspan="2" class="px-5 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-600" scope="rowgroup">Week of <?= escape_html($week['label']) ?></th>
+                        <tr class="bg-slate-100/70 border-y border-slate-200">
+                            <th colspan="2" class="px-5 py-2 text-left text-xs font-bold uppercase tracking-wider text-slate-600" scope="rowgroup">Week of <?= escape_html($week['label']) ?></th>
                         </tr>
                         <?php foreach ($week['records'] as $record): ?>
-                            <tr class="odd:bg-white even:bg-slate-50">
-                                <td class="px-5 py-3 text-slate-700"><time datetime="<?= escape_html($record['attendance_date']) ?>"><?= escape_html($record['display_date']) ?></time></td>
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="px-5 py-3 text-slate-800 font-medium"><time datetime="<?= escape_html($record['attendance_date']) ?>"><?= escape_html($record['display_date']) ?></time></td>
                                 <td class="px-5 py-3">
-                                    <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold <?= $record['status'] === 'attended' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' ?>">
+                                    <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold <?= $record['status'] === 'attended' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800' ?>">
                                         <?= escape_html(ucfirst($record['status'])) ?>
                                     </span>
                                 </td>

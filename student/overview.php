@@ -126,17 +126,16 @@ $score_statement = mysqli_prepare(
 mysqli_stmt_bind_param($score_statement, 'i', $_SESSION['user_id']);
 mysqli_stmt_execute($score_statement);
 $subject_scores = mysqli_stmt_get_result($score_statement);
-$page_title = 'My attendance';
+$page_title = 'Student Overview';
 require __DIR__ . '/../header.php';
 ?>
-<div class="relative isolate mb-6 overflow-hidden text-black">
-    <div class="relative z-10">
-        <p class="mb-1 text-lg font-medium tracking-wide text-neutral-500">Hello,</p>
-        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight"><?= escape_html($student['username']) ?></h1>
-        <p class="mt-3 max-w-xl text-sm leading-6 text-neutral-500 sm:text-base">Here is your attendance and subject progress at a glance.</p>
-    </div>
+
+<div class="mb-5">
+    <h1 class="text-2xl font-bold text-slate-900">Student Dashboard</h1>
+    <p class="text-sm text-slate-500">Welcome back, <span class="font-semibold text-slate-700"><?= escape_html($student['full_name'] ?? $student['username']) ?></span>. Here is your academic progress.</p>
 </div>
-<div class="mb-4 flex items-center justify-start">
+
+<div class="mb-5 flex items-center justify-start">
     <form method="get" class="flex items-center gap-2">
         <?php if (isset($_GET['month'])): ?>
             <input type="hidden" name="month" value="<?= escape_html($_GET['month']) ?>">
@@ -146,49 +145,48 @@ require __DIR__ . '/../header.php';
             id="range"
             name="range"
             onchange="this.form.submit()"
-            class="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-medium text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
         >
             <option value="weekly"<?= $selected_range === 'weekly' ? ' selected' : '' ?>>Weekly</option>
             <option value="monthly"<?= $selected_range === 'monthly' ? ' selected' : '' ?>>Monthly</option>
             <option value="yearly"<?= $selected_range === 'yearly' ? ' selected' : '' ?>>Yearly</option>
-            <option value="entirely"<?= $selected_range === 'entirely' ? ' selected' : '' ?>>Entirely</option>
+            <option value="entirely"<?= $selected_range === 'entirely' ? ' selected' : '' ?>>All Time</option>
         </select>
     </form>
 </div>
-<div class="grid items-start gap-4 lg:grid-cols-12">
-    <div class="space-y-4 lg:col-span-9">
+
+<div class="grid items-start gap-5 lg:grid-cols-12">
+    <div class="space-y-5 lg:col-span-9">
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <div class="rounded-xl border border-slate-200 bg-white p-4">
-                <div class="text-sm font-medium text-slate-600">Attendance points</div>
-                <div class="mt-2 text-3xl font-semibold text-blue-900"><?= (int) $range_attendance_counts['attended'] ?></div>
-                <p class="mt-1 text-xs text-slate-500"><?= escape_html($points_subtitle) ?></p>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+                <div class="text-md text-slate-500">Attendance Points</div>
+                <div class="mt-2 text-3xl font-bold text-slate-900"><?= (int) $range_attendance_counts['attended'] ?></div>
             </div>
-            <div class="rounded-xl border border-slate-200 bg-white p-4">
-                <div class="text-sm font-medium text-slate-600"><?= escape_html($attended_title) ?></div>
-                <div class="mt-2 text-3xl font-semibold text-emerald-700"><?= (int) $range_attendance_counts['attended'] ?></div>
-                <p class="mt-1 text-xs text-slate-500">Days marked attended</p>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+                <div class="text-md text-slate-500"><?= escape_html($attended_title) ?></div>
+                <div class="mt-2 text-3xl font-bold text-emerald-600"><?= (int) $range_attendance_counts['attended'] ?></div>
             </div>
-            <div class="rounded-xl border border-slate-200 bg-white p-4">
-                <div class="text-sm font-medium text-slate-600"><?= escape_html($absent_title) ?></div>
-                <div class="mt-2 text-3xl font-semibold text-rose-700"><?= (int) $range_attendance_counts['absent'] ?></div>
-                <p class="mt-1 text-xs text-slate-500">Days marked absent</p>
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+                <div class="text-md text-slate-500"><?= escape_html($absent_title) ?></div>
+                <div class="mt-2 text-3xl font-bold text-red-600"><?= (int) $range_attendance_counts['absent'] ?></div>
             </div>
         </div>
-        <div class="grid items-start gap-4 lg:grid-cols-12">
+
+        <div class="grid items-start gap-5 lg:grid-cols-12">
             <section class="overflow-hidden rounded-xl border border-slate-200 bg-white lg:col-span-7" aria-labelledby="calendar-heading">
-                <div class="p-4">
-                    <div class="mb-3 flex items-center justify-between">
+                <div class="p-5">
+                    <div class="mb-4 flex items-center justify-between">
                         <h2 class="text-base font-semibold text-slate-900" id="calendar-heading">
                             <?= escape_html($month_start->format('F Y')) ?>
                         </h2>
-                        <div class="flex overflow-hidden rounded-md border border-slate-300" aria-label="Calendar month navigation">
+                        <div class="flex overflow-hidden rounded-lg border border-slate-300" aria-label="Calendar month navigation">
                             <a
-                                class="px-2.5 py-.5 text-lg text-slate-700 hover:bg-slate-100 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                class="px-3 py-1 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                                 href="?month=<?= escape_html($previous_month) ?>&amp;range=<?= escape_html($selected_range) ?>"
                                 aria-label="Previous month"
                             >&lsaquo;</a>
                             <a
-                                class="border-l border-slate-300 px-2.5 py-.5 text-lg text-slate-700 hover:bg-slate-100 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                class="border-l border-slate-300 px-3 py-1 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                                 href="?month=<?= escape_html($following_month) ?>&amp;range=<?= escape_html($selected_range) ?>"
                                 aria-label="Next month"
                             >&rsaquo;</a>
@@ -196,7 +194,7 @@ require __DIR__ . '/../header.php';
                     </div>
                     <div class="grid grid-cols-7 gap-1" role="grid" aria-labelledby="calendar-heading">
                         <?php foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $weekday): ?>
-                            <div class="py-0.5 text-center text-xs font-semibold text-slate-500" role="columnheader"><?= $weekday ?></div>
+                            <div class="py-1 text-center text-xs font-semibold text-slate-500 tracking-wider" role="columnheader"><?= $weekday ?></div>
                         <?php endforeach; ?>
                         <?php for ($day_offset = 0; $day_offset < 42; $day_offset++):
                             $calendar_day = $calendar_start->modify('+' . $day_offset . ' days');
@@ -204,15 +202,15 @@ require __DIR__ . '/../header.php';
                             $in_month = $calendar_day->format('Y-m') === $month_start->format('Y-m');
                             $day_status = $in_month ? ($calendar_statuses[$day_key] ?? '') : '';
                             $day_class = match (true) {
-                                !$in_month => 'flex h-7 sm:h-7.5 items-center justify-center rounded-md border border-slate-100 bg-slate-50 text-xs text-slate-400',
-                                $day_status === 'attended' => 'flex h-7 sm:h-7.5 items-center justify-center rounded-md border border-emerald-300 bg-emerald-100 text-xs text-emerald-900',
-                                $day_status === 'absent' => 'flex h-7 sm:h-7.5 items-center justify-center rounded-md border border-rose-300 bg-rose-100 text-xs text-rose-900',
-                                default => 'flex h-7 sm:h-7.5 items-center justify-center rounded-md border border-slate-200 bg-white text-xs text-slate-800',
+                                !$in_month => 'flex h-8 items-center justify-center rounded-lg border border-slate-100 bg-slate-50 text-xs text-slate-400',
+                                $day_status === 'attended' => 'flex h-8 items-center justify-center rounded-lg bg-emerald-500 text-xs font-semibold text-white',
+                                $day_status === 'absent' => 'flex h-8 items-center justify-center rounded-lg bg-red-500 text-xs font-semibold text-white',
+                                default => 'flex h-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-xs text-slate-700',
                             };
                             $day_status_label = match ($day_status) {
                                 'attended' => 'Attended',
                                 'absent' => 'Absent',
-                                default => 'No attendance recorded',
+                                default => 'No record',
                             };
                         ?>
                             <div
@@ -225,26 +223,28 @@ require __DIR__ . '/../header.php';
                             </div>
                         <?php endfor; ?>
                     </div>
-                    <div class="mt-3 flex gap-3 text-xs text-slate-600" aria-label="Attendance calendar legend">
-                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-xs border border-emerald-300 bg-emerald-100"></span>Attended</span>
-                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-xs border border-rose-300 bg-rose-100"></span>Absent</span>
+                    <div class="mt-4 flex items-center gap-4 text-xs font-medium text-slate-600 border-t border-slate-100 pt-3" aria-label="Attendance calendar legend">
+                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>Attended</span>
+                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-red-500"></span>Absent</span>
                     </div>
                 </div>
             </section>
+
+            <!-- Subject Scores Table -->
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-white lg:col-span-5">
-                <div class="border-b border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-900">My subjects</div>
+                <div class="border-b border-slate-200 bg-slate-50/70 px-4 py-3 text-sm font-semibold text-slate-900">Subject Scores</div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs sm:text-sm">
-                        <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
+                        <thead class="bg-slate-50 text-xs font-semibold text-slate-500 border-b border-slate-200">
                             <tr>
-                                <th class="px-3.5 py-2 font-semibold">Subject</th>
-                                <th class="px-3.5 py-2 font-semibold">Score</th>
+                                <th class="px-4 py-2.5">Subject</th>
+                                <th class="px-4 py-2.5 text-right">Score</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200">
                             <?php if (mysqli_num_rows($subject_scores) === 0): ?>
                                 <tr>
-                                    <td colspan="2" class="px-3.5 py-3 text-slate-500">No subjects have been added yet.</td>
+                                    <td colspan="2" class="px-4 py-6 text-center text-slate-500">No subject scores published yet.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php while ($subject = mysqli_fetch_assoc($subject_scores)): ?>
@@ -252,9 +252,9 @@ require __DIR__ . '/../header.php';
                                     $score_val = rtrim(rtrim((string) $subject['score'], '0'), '.');
                                     $max_val = rtrim(rtrim((string) $subject['max_score'], '0'), '.');
                                     ?>
-                                    <tr class="odd:bg-white even:bg-slate-50">
-                                        <td class="px-3.5 py-2 font-medium text-slate-900"><?= escape_html($subject['name']) ?></td>
-                                        <td class="px-3.5 py-2 font-medium text-slate-700"><?= escape_html($score_val) ?> / <?= escape_html($max_val) ?></td>
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="px-4 py-3 font-medium text-slate-900"><?= escape_html($subject['name']) ?></td>
+                                        <td class="px-4 py-3 text-right font-medium text-slate-700"><?= escape_html($score_val) ?> <span class="text-xs text-slate-400">/ <?= escape_html($max_val) ?></span></td>
                                     </tr>
                                 <?php endwhile; ?>
                             <?php endif; ?>
@@ -264,22 +264,24 @@ require __DIR__ . '/../header.php';
             </div>
         </div>
     </div>
+
+    <!-- Recent Attendance Log Side Panel -->
     <aside class="lg:col-span-3">
-        <section class="rounded-xl border border-slate-200 bg-white p-4" aria-labelledby="recent-attendance-heading">
-            <div class="mb-3 flex items-center justify-between gap-2">
-                <h2 class="text-sm font-semibold text-slate-800" id="recent-attendance-heading">Recent attendance</h2>
-                <a class="whitespace-nowrap text-xs font-medium text-blue-800 hover:text-blue-950" href="attendance.php">View all</a>
+        <section class="rounded-xl border border-slate-200 bg-white p-5" aria-labelledby="recent-attendance-heading">
+            <div class="mb-4 flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <h2 class="text-sm font-semibold text-slate-900" id="recent-attendance-heading">Recent Log</h2>
+                <a class="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors" href="attendance.php">View History</a>
             </div>
             <?php if (mysqli_num_rows($recent_attendance) === 0): ?>
-                <p class="text-sm text-slate-500">No attendance recorded yet.</p>
+                <p class="text-xs text-slate-500 py-2">No attendance records logged yet.</p>
             <?php else: ?>
-                <ul class="space-y-2">
+                <ul class="space-y-2.5">
                     <?php while ($recent_record = mysqli_fetch_assoc($recent_attendance)): ?>
-                        <li class="flex items-center justify-between gap-2 border-t border-slate-100 pt-2 text-xs">
-                            <time class="text-slate-600" datetime="<?= escape_html($recent_record['attendance_date']) ?>">
-                                <?= escape_html((new DateTimeImmutable($recent_record['attendance_date']))->format('M j')) ?>
+                        <li class="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                            <time class="text-slate-600 font-medium" datetime="<?= escape_html($recent_record['attendance_date']) ?>">
+                                <?= escape_html((new DateTimeImmutable($recent_record['attendance_date']))->format('M j, Y')) ?>
                             </time>
-                            <span class="rounded-full px-2 py-0.5 font-semibold <?= $recent_record['status'] === 'attended' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' ?>">
+                            <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-semibold <?= $recent_record['status'] === 'attended' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800' ?>">
                                 <?= escape_html(ucfirst($recent_record['status'])) ?>
                             </span>
                         </li>

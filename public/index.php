@@ -9,39 +9,13 @@ if (!empty($_SESSION['user_id'])) {
 }
 
 $error_message = '';
-$learning_quotes = [
-    'Every page you turn is a step toward who you can become.',
-    'Small steps in learning lead to remarkable journeys.',
-    'Curiosity opens doors that effort can walk through.',
-    'The future belongs to those who keep asking, learning, and growing.',
-    'Knowledge grows each time you choose to begin again.',
-    'Its better to improve 1% every day than 20% every month.',
-    'One day, or day one.'
-];
-$learning_quote = $learning_quotes[array_rand($learning_quotes)];
-
-$welcome = [
-    'Good day to you!',
-    'Lets get going!',
-    'Greetings!',
-    'Welcome!',
-    'Hello!',
-    'Suostei!',
-];
-$welcome = $welcome[array_rand($welcome)];
-
-$signinmessage = [
-    'Sign in to see your progress!',
-    'Sign in to continue!',
-];
-$signinmessage = $signinmessage[array_rand($signinmessage)];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if ($username === '' || $password === '') {
-        $error_message = 'Enter your username and password.';
+        $error_message = 'Please enter both your username and password.';
     } else {
         $statement = mysqli_prepare($link, 'select id, password, role from users where username = ?');
         mysqli_stmt_bind_param($statement, 's', $username);
@@ -58,130 +32,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ' . app_base_path() . $destination);
             exit;
         }
-        $error_message = 'The username or password is incorrect.';
+        $error_message = 'Invalid username or password.';
     }
 }
 
-$page_title = 'Sign in';
+$page_title = 'Sign In';
 require __DIR__ . '/../header.php';
 ?>
-<div class="login-layout grid min-h-[calc(100vh-3.5rem)] grid-cols-1 lg:grid-cols-[60%_40%]">
-    <div class="flex items-center justify-center px-4 py-8 sm:px-8 lg:px-12">
-    <div class="login-card w-full max-w-md rounded-2xl border border-slate-200/80 bg-white/95 shadow-xl shadow-blue-950/5">
-        <div class="p-7 sm:p-9">
-            <div class="mb-7 text-center">
-                <blockquote class="mx-auto max-w-sm font-serif text-lg leading-7 text-slate-700">&ldquo;<?= escape_html($learning_quote) ?>&rdquo;</blockquote>
+<div class="relative flex min-h-[calc(100vh-3.5rem)] w-full items-center justify-center bg-slate-900 bg-cover bg-center px-4 py-12 sm:px-6 lg:px-8" style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)), url('<?= escape_html(app_base_path()) ?>/public/bg-login.jpg');">
+    <div class="w-full max-w-md space-y-6">
+        <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-2xl">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Sign in to your account</h1>
+                <p class="mt-1 text-sm text-slate-500">Access the School Attendance System</p>
             </div>
-            <div class="mb-6 text-center">
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900"><?= escape_html($welcome) ?></h1>
-                <p class="mt-2 text-sm leading-6 text-slate-600"><?= escape_html($signinmessage) ?></p>
-            </div>
-                <?php if ($error_message !== ''): ?>
-                    <div class="mb-4 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800" role="alert">
-                        <?= escape_html($error_message) ?>
-                    </div>
-                <?php endif; ?>
-                <form method="post" action="<?= escape_html(app_base_path()) ?>/public/index.php" id="loginForm">
-                    <div class="mb-4">
-                        <label class="mb-1 block text-sm font-medium text-slate-700" for="username">Username</label>
-                        <input
-                            class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-                            id="username"
-                            name="username"
-                            required
-                            maxlength="80"
-                            value="<?= escape_html($_POST['username'] ?? '') ?>"
-                            autocomplete="username"
-                            placeholder="Enter your username"
-                            autofocus
-                        >
-                    </div>
 
-                    <div
-                        id="passwordSection"
-                        class="transition-all duration-500 ease-out transform <?= ($error_message !== '' || !empty($_POST['username'])) ? 'opacity-100 translate-y-0' : 'hidden opacity-0 translate-y-4' ?>"
+            <?php if ($error_message !== ''): ?>
+                <div class="mb-5 rounded-lg border border-red-200 bg-red-50 p-3.5 text-sm text-red-700" role="alert">
+                    <div class="flex items-center gap-2 font-medium">
+                        <svg class="h-4 w-4 shrink-0 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span><?= escape_html($error_message) ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" action="<?= escape_html(app_base_path()) ?>/public/index.php" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1" for="username">Username</label>
+                    <input
+                        class="block w-full rounded-lg border border-slate-300 px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-colors"
+                        id="username"
+                        name="username"
+                        type="text"
+                        required
+                        maxlength="80"
+                        value="<?= escape_html($_POST['username'] ?? '') ?>"
+                        autocomplete="username"
+                        placeholder="Enter your username"
+                        autofocus
                     >
-                        <div class="mb-4">
-                            <label class="mb-1 block text-sm font-medium text-slate-700" for="password">Password</label>
-                            <input
-                                class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                autocomplete="current-password"
-                                placeholder="Enter your password"
-                            >
-                        </div>
-                        <button
-                            class="w-full rounded-md bg-blue-800 px-4 py-2.5 my-2 text-sm font-semibold text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition-all cursor-pointer"
-                            type="submit"
-                            id="submitBtn"
-                        >
-                            Sign in
-                        </button>
-                    </div>
+                </div>
 
-                    <p class="mt-4 text-xs text-neutral-400">Can't log in? Check your password, or you need to wait for a staff to register your account!</p>
-                </form>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1" for="password">Password</label>
+                    <input
+                        class="block w-full rounded-lg border border-slate-300 px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-colors"
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                    >
+                </div>
 
-                <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const usernameInput = document.getElementById('username');
-                    const passwordSection = document.getElementById('passwordSection');
-                    const passwordInput = document.getElementById('password');
+                <button
+                    class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition-colors cursor-pointer shadow-xs"
+                    type="submit"
+                >
+                    Sign In
+                </button>
+            </form>
 
-                    function updateVisibility() {
-                        const hasText = usernameInput.value.trim() !== '';
-
-                        if (hasText) {
-                            if (passwordSection.classList.contains('hidden')) {
-                                passwordSection.classList.remove('hidden');
-                                void passwordSection.offsetWidth;
-                                requestAnimationFrame(function () {
-                                    passwordSection.classList.remove('opacity-0', 'translate-y-4');
-                                    passwordSection.classList.add('opacity-100', 'translate-y-0');
-                                });
-                            }
-                        } else {
-                            passwordSection.classList.remove('opacity-100', 'translate-y-0');
-                            passwordSection.classList.add('opacity-0', 'translate-y-4');
-                            setTimeout(function () {
-                                if (usernameInput.value.trim() === '') {
-                                    passwordSection.classList.add('hidden');
-                                }
-                            }, 300);
-                        }
-                    }
-
-                    usernameInput.addEventListener('input', updateVisibility);
-
-                    // Handle prefilled value or browser autofill
-                    if (usernameInput.value.trim() !== '') {
-                        updateVisibility();
-                    }
-
-                    usernameInput.addEventListener('keydown', function (e) {
-                        if (e.key === 'Enter' && usernameInput.value.trim() !== '') {
-                            e.preventDefault();
-                            passwordInput.focus();
-                        }
-                    });
-                });
-                </script>
+            <div class="mt-6 pt-5 border-t border-slate-100 text-xs text-slate-500 text-center">
+                If you cannot log in or need an account, please contact school staff.
+            </div>
         </div>
     </div>
-    </div>
-    <aside class="login-art hidden items-center justify-center px-10 py-12 text-center text-white lg:flex" aria-label="Learning inspiration">
-        <div class="relative z-10 max-w-sm">
-            <span class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10" aria-hidden="true">
-                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.25c-2.5-2-5.25-2-8-1v13.5c2.75-1 5.5-1 8 1m0-13.5c2.5-2 5.25-2 8-1v13.5c-2.75-1-5.5-1-8 1m0-13.5v13.5"/></svg>
-            </span>
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">Learn a little every day</p>
-            <h2 class="mt-4 text-3xl font-bold leading-tight">Your next achievement starts with showing up.</h2>
-            <p class="mt-4 text-sm leading-6 text-blue-100">Keep building your knowledge, one lesson and one day at a time.</p>
-        </div>
-    </aside>
 </div>
 <?php
 require __DIR__ . '/../footer.php';
