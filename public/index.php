@@ -43,8 +43,7 @@ require __DIR__ . '/../header.php';
     <div class="w-full max-w-md space-y-6">
         <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-2xl">
             <div class="mb-6">
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Sign in to your account</h1>
-                <p class="mt-1 text-sm text-slate-500">Access the School Attendance System</p>
+                <h1 class="text-2xl text-center font-bold text-slate-900">Sign in</h1>
             </div>
 
             <?php if ($error_message !== ''): ?>

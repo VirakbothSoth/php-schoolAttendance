@@ -72,7 +72,7 @@ require __DIR__ . '/../header.php';
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+            <thead class="bg-slate-50 text-md text-slate-500 border-b border-slate-200">
                 <tr>
                     <th class="px-5 py-3" scope="col">Date</th>
                     <th class="px-5 py-3" scope="col">Status</th>
@@ -88,7 +88,7 @@ require __DIR__ . '/../header.php';
                 <?php else: ?>
                     <?php foreach ($weeks as $week): ?>
                         <tr class="bg-slate-100/70 border-y border-slate-200">
-                            <th colspan="2" class="px-5 py-2 text-left text-xs font-bold uppercase tracking-wider text-slate-600" scope="rowgroup">Week of <?= escape_html($week['label']) ?></th>
+                            <th colspan="2" class="px-5 py-2 text-left text-xs font-bold uppercase text-slate-600" scope="rowgroup">Week of <?= escape_html($week['label']) ?></th>
                         </tr>
                         <?php foreach ($week['records'] as $record): ?>
                             <tr class="hover:bg-slate-50/80 transition-colors">

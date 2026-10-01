@@ -87,7 +87,7 @@ require __DIR__ . '/../header.php';
 ?>
 <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <div>
-        <h1 class="text-2xl font-bold  text-slate-900">Manage Students</h1>
+        <h1 class="text-2xl font-bold text-slate-900">Manage Students</h1>
         <p class="text-sm text-slate-500">View registered students or create new student accounts.</p>
     </div>
     <button
@@ -143,7 +143,7 @@ require __DIR__ . '/../header.php';
 
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm" id="studentsTable">
-            <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+            <thead class="bg-slate-50 text-md text-slate-500 border-b border-slate-200">
                 <tr>
                     <th class="px-5 py-3">Full Name</th>
                     <th class="px-5 py-3">Username</th>
@@ -159,7 +159,7 @@ require __DIR__ . '/../header.php';
                     <?php while ($student = mysqli_fetch_assoc($students)): ?>
                         <tr class="student-row hover:bg-slate-50/80 transition-colors" data-name="<?= htmlspecialchars(mb_strtolower($student['full_name'], 'UTF-8'), ENT_QUOTES, 'UTF-8') ?>" data-username="<?= htmlspecialchars(mb_strtolower($student['username'], 'UTF-8'), ENT_QUOTES, 'UTF-8') ?>">
                             <td class="px-5 py-3.5 font-medium text-slate-900"><?= escape_html($student['full_name']) ?></td>
-                            <td class="px-5 py-3.5 text-slate-600 font-mono text-xs"><?= escape_html($student['username']) ?></td>
+                            <td class="px-5 py-3.5 text-slate-600 font-mono"><?= escape_html($student['username']) ?></td>
                             <td class="px-5 py-3.5 text-right">
                                 <button
                                     type="button"

@@ -99,7 +99,7 @@ require __DIR__ . '/../header.php';
     <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
-                <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                <thead class="bg-slate-50 text-md text-slate-500 border-b border-slate-200">
                     <tr>
                         <th class="px-5 py-3">Student Name</th>
                         <th class="w-64 px-5 py-3">Attendance Status</th>

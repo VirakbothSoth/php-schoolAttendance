@@ -194,7 +194,7 @@ require __DIR__ . '/../header.php';
                     </div>
                     <div class="grid grid-cols-7 gap-1" role="grid" aria-labelledby="calendar-heading">
                         <?php foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $weekday): ?>
-                            <div class="py-1 text-center text-xs font-semibold text-slate-500 tracking-wider" role="columnheader"><?= $weekday ?></div>
+                            <div class="py-1 text-center text-xs font-semibold text-slate-500" role="columnheader"><?= $weekday ?></div>
                         <?php endforeach; ?>
                         <?php for ($day_offset = 0; $day_offset < 42; $day_offset++):
                             $calendar_day = $calendar_start->modify('+' . $day_offset . ' days');

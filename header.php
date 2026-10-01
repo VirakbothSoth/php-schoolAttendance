@@ -12,10 +12,19 @@ $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
     <title><?= escape_html($page_title) ?> - School Attendance System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Clarity+City:ital,wght@0,400..900;1,400..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="<?= escape_html(app_base_path()) ?>/style.css?v=2.0" rel="stylesheet">
+
+    <style>
+        h1, h2, h3 {
+            font-family: "Clarity City", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: 'Noto Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+    </style>
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased font-sans">
     <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-30">
@@ -31,13 +40,13 @@ $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
                     <span class="inline-flex items-center rounded-md bg-amber-500/15 px-2.5 py-1 text-xs font-medium text-amber-300 border border-amber-500/30">
                         Student Demo View
                     </span>
-                    <a class="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors" href="<?= escape_html(app_base_path()) ?>/public/exit_demo.php">
+                    <a class="rounded-md bg-amber-600 px-3 py-2 text-md font-medium text-white hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors" href="<?= escape_html(app_base_path()) ?>/public/exit_demo.php">
                         Exit Demo
                     </a>
                 </div>
             <?php elseif (!empty($_SESSION['user_id'])): ?>
-                <a class="rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-600 transition-colors" href="<?= escape_html(app_base_path()) ?>/public/logout.php">
-                    Sign out
+                <a class="rounded-md border border-slate-700 px-3 py-2 text-md font-medium text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 transition-colors" href="<?= escape_html(app_base_path()) ?>/public/logout.php">
+                    Sign Out
                 </a>
             <?php endif; ?>
         </div>
